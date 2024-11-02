@@ -1,0 +1,25 @@
+{
+    "name": "server",
+    "version": "1.0.0",
+    "description": "production ready server",
+    "main": "server.js",
+    "type": "module",
+    "scripts": {
+        "start": "nodemon server.js",
+        "dev": "nodemon server.js",
+        "prod": "export NODE_ENV=production && node server.js"
+    },
+    "author": "Me",
+    "license": "ISC",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.5",
+        "express": "^4.17.1",
+        "mongodb": "^6.3.0",
+        "mongoose": "^8.8.0",
+        "node-cache": "^5.1.2"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.0"
+    }
+}
