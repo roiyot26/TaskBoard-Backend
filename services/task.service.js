@@ -9,15 +9,56 @@ export const taskService = {
   update,
 }
 
-async function query() {
+// async function query(filter) {
+//   try {
+//     console.log(filter)
+//     const tasks = await taskModel.find()
+//     return tasks
+//   } catch (err) {
+//     console.log('Cannot find tasks', err)
+//     throw err
+//   }
+// }
+
+async function query({ title, priority, sortBy = 'title', isAscending = 'true', page = 1, limit = 5 }) {
+
   try {
-    const tasks = await taskModel.find()
-    return tasks
+    // Build the filter object based on query parameters
+    const filter = {};
+    if (title) filter.title = { $regex: title, $options: 'i' }; // Case-insensitive title search
+    if (priority) {
+      if (priority === 'low') filter.priority = { $gte: 0, $lte: 0.3 };
+      else if (priority === 'medium') filter.priority = { $gte: 0.4, $lte: 0.6 };
+      else if (priority === 'high') filter.priority = { $gte: 0.7, $lte: 1 };
+    }
+    // Set sorting order
+    const sortOrder = isAscending === 'true' ? 1 : -1;
+    const sort = { [sortBy]: sortOrder };
+
+    // Query the database with filtering, sorting, and pagination
+    const tasks = await taskModel.find(filter)
+      .sort(sort)
+      .skip((page - 1) * Number(limit)) // Pagination offset
+      .limit(Number(limit)); // Limit the number of results per page
+
+    // Calculate total tasks and total pages
+    const totalTasks = await taskModel.countDocuments(filter);
+    const totalPages = Math.ceil(totalTasks / limit);
+
+    // Return the tasks with pagination metadata
+    console.log(tasks)
+
+    // return tasks
+    return { tasks, totalTasks, totalPages };
   } catch (err) {
-    console.log('Cannot find tasks', err)
-    throw err
+    console.error('Error in taskService.query:', err);
+    throw err;
   }
+
 }
+
+
+
 
 async function getById(taskId) {
   try {
@@ -48,11 +89,11 @@ async function add(taskToAdd) {
   }
 }
 
-async function update(taskId,taskToUpdate) {
+async function update(taskId, taskToUpdate) {
   try {
     const updatedTask = await taskModel.findByIdAndUpdate(taskId, taskToUpdate, {
-      new: true,      
-      runValidators: true  
+      new: true,
+      runValidators: true
     })
     return updatedTask
   } catch (err) {

@@ -1,8 +1,10 @@
 import { taskService } from '../services/task.service.js'
 
+
 export async function getTasks(req, res) {
     try {
-        const tasks = await taskService.query()
+        console.log('before Tasks')
+        const tasks = await taskService.query(req.query)
         res.send(tasks)
     } catch (err) {
         res.status(500).send({ err: 'Failed to get tasks' })
