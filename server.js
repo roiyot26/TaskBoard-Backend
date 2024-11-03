@@ -6,6 +6,7 @@ import dotenv from 'dotenv'
 import NodeCache from 'node-cache'
 import mongoose from 'mongoose'
 
+import { logger } from './services/logger.service.js'
 import { taskRoutes } from './routes/task.routes.js'
 
 const app = express()
@@ -39,8 +40,7 @@ app.get('/**', (req, res) => {
 
 const port = process.env.PORT || 3030
 mongoose.connect(process.env.MONGO_URL||'mongodb://localhost:27017/taskBoard_db').then(() => {
-  console.log('db connected')
   server.listen(port, () => {
-    console.log('Server is running on port: ' + port)
+    logger.info('Server is running on port: ' + port)
   })
 }).catch(error=>{console.log('had issues connecting to db',error)})
