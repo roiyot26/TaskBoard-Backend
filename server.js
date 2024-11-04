@@ -40,7 +40,7 @@ app.get('/**', (req, res) => {
 
 
 const port = process.env.PORT || 3030
-mongoose.connect(process.env.MONGO_URL, { dbName: process.env.DB_NAME }).then(() => {
+mongoose.connect(process.env.MONGO_URL||'mongodb://127.0.0.1:27017', { dbName: process.env.DB_NAME||'taskBoard_db'}).then(() => {
   console.log(process.env.MONGO_URL);
   server.listen(port, () => {
     logger.info('Server is running on port: ' + port)
