@@ -3,11 +3,11 @@ import path from 'path'
 import cors from 'cors'
 import express from 'express'
 import dotenv from 'dotenv'
-import NodeCache from 'node-cache'
 import mongoose from 'mongoose'
 
 import { logger } from './services/logger.service.js'
 import { taskRoutes } from './routes/task.routes.js'
+import {config} from './config/index.js'
 
 const app = express()
 const server = http.createServer(app)
@@ -39,8 +39,8 @@ app.get('/**', (req, res) => {
 
 
 const port = process.env.PORT || 3030
-mongoose.connect(process.env.MONGO_URL||'mongodb://localhost:27017/taskBoard_db').then(() => {
+mongoose.connect(process.env.MONGO_URL||config.dbURL).then(() => {
   server.listen(port, () => {
     logger.info('Server is running on port: ' + port)
   })
-}).catch(error=>{console.log('had issues connecting to db',error)})
+}).catch(error=>{logger.error('had issues connecting to db',error)})

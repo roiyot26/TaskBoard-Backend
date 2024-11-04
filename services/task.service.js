@@ -140,35 +140,4 @@ for (const [keyword, value] of Object.entries(keywords)) {
   return truncatedPriority;
 }
 
-// [
-//   {
-//     title: "Complete project report",
-//     description: "Write the final report for the project and submit it by the end of the day.",
-//     priority: 0.2,
-//     createdAt: 1730372669275
-//   },
-//   {
-//     title: "Team meeting preparation",
-//     description: "Prepare the agenda and materials for the weekly team meeting.",
-//     priority: 0.4,
-//     createdAt: 1730432596634
-//   },
-//   {
-//     title: "Code review",
-//     description: "Review the latest pull requests on the repository.",
-//     priority: 0.7,
-//     createdAt: 1730536162029
-//   },
-//   {
-//     title: "Design review",
-//     description: "Check the new design proposals and provide feedback to the design team.",
-//     priority: 0.1,
-//     createdAt: 1730512652356
-//   },
-//   {
-//     title: "Client call follow-up",
-//     description: "Send a follow-up email with additional details to the client after the call.",
-//     priority: 0.8,
-//     createdAt: 1730455875786
-//   }
-// ]
+
