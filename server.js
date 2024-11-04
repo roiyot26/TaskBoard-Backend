@@ -41,6 +41,7 @@ app.get('/**', (req, res) => {
 
 const port = process.env.PORT || 3030
 mongoose.connect(process.env.MONGO_URL, { dbName: process.env.DB_NAME }).then(() => {
+  console.log(process.env.MONGO_URL);
   server.listen(port, () => {
     logger.info('Server is running on port: ' + port)
   })
