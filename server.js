@@ -7,10 +7,9 @@ import mongoose from 'mongoose'
 import { logger } from './services/logger.service.js'
 import { taskRoutes } from './routes/task.routes.js'
 
-const res = dotenv.config({
-  path: process.env.NODE_ENV === 'production' ? '.env.production' : '.env'
+dotenv.config({
+  path:'.env'
 })
-console.log('res', res)
 const app = express()
 const server = http.createServer(app)
 
