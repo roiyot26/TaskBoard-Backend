@@ -4,11 +4,13 @@ import cors from 'cors'
 import express from 'express'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
-
 import { logger } from './services/logger.service.js'
 import { taskRoutes } from './routes/task.routes.js'
-import {config} from './config/index.js'
 
+const res = dotenv.config({
+  path: process.env.NODE_ENV === 'production' ? '.env.production' : '.env'
+})
+console.log('res', res)
 const app = express()
 const server = http.createServer(app)
 
@@ -39,8 +41,10 @@ app.get('/**', (req, res) => {
 
 
 const port = process.env.PORT || 3030
-mongoose.connect(process.env.MONGO_URL||config.dbURL).then(() => {
+mongoose.connect(process.env.MONGO_URL, { dbName: process.env.DB_NAME }).then(() => {
   server.listen(port, () => {
     logger.info('Server is running on port: ' + port)
   })
-}).catch(error=>{logger.error('had issues connecting to db',error)})
+}).catch(error => {
+  logger.error('had issues connecting to db', error)
+})
